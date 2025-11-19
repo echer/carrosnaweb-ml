@@ -25,8 +25,9 @@ def getManufacters():
             manufacter = link.contents[0].string
             href = link['href'].split('?')
             if(len(href) > 1 and manufacter not in ignorelinks):
-                extract = href[1].split('=')[1]
-                s1 = pd.concat([s1, pd.Series([extract])])
+                if(href[1].split('=')[0] == 'fabricante'):
+                    extract = href[1].split('=')[1]
+                    s1 = pd.concat([s1, pd.Series([extract])])
     return s1
 
 #print(getManufacters())

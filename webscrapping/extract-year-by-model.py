@@ -21,10 +21,10 @@ def getYearByModel(manufacter, model):
         ignorelinks = ['Página Principal', 'Todos', 'Catálogo', manufacter]
 
         for link in links:
-            model = link.contents[0].string
+            year = link.contents[0].string
             href = link['href'].split('?')
 
-            if(len(href) > 1 and model not in ignorelinks):
+            if(len(href) > 1 and year not in ignorelinks):
                 print(href)
                 if(href[1].split('&')[2].split('=')[0] == 'anoini'):
                     extract = href[1].split('&')[2].split('=')[1]

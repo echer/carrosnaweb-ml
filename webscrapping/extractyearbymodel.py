@@ -32,4 +32,4 @@ def getYearByModel(manufacter, model):
 
     return s1
 
-print(getYearByModel('Changan','Avatr 11'))
+#print(getYearByModel('Changan','Avatr 11'))

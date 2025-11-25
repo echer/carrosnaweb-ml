@@ -27,9 +27,9 @@ def downloadModels(path, manufacter):
     if(response.status_code == 200):
         with open(path, 'w', encoding="utf-8") as file:
             file.write(response.text)
-        print(f'SUCCESS downloading page: manufacters')
+        print(f'SUCCESS downloading page: {manufacter}')
     else:
-        print(f'=> ERROR downloading page: manufacters')
+        print(f'=> ERROR downloading page: {manufacter}')
     return response.text
 
 def downloadCarDetails(code):

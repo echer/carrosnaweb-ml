@@ -36,3 +36,21 @@ def getModels(content):
                 s1 = pd.concat([s1, pd.Series([extract])])
 
     return s1
+
+def getYears(content, manufacter):
+    s1 = pd.Series([])
+
+    soup = BeautifulSoup(content, "html.parser")
+    links = soup.find_all('table')[2].find_all('a')
+    
+    ignorelinks = ['Página Principal', 'Todos', 'Catálogo', manufacter]
+
+    for link in links:
+        year = link.contents[0].string
+        href = link['href'].split('?')
+
+        if(len(href) > 1 and year not in ignorelinks):
+            if(href[1].split('&')[2].split('=')[0] == 'anoini'):
+                extract = href[1].split('&')[2].split('=')[1]
+                s1 = pd.concat([s1, pd.Series([extract])])
+    return s1

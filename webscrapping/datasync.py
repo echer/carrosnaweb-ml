@@ -10,17 +10,8 @@ def syncData():
     manufacters = processManufacters()
     for manufacter in manufacters:
         models = processModels(manufacter)
-        #for model in models:
-        #    print(model)
-
-def processModels(manufacter):
-    path = f'{root_folder}/{manufacter}'
-    file = f'{manufacter}.html'
-    full_path = f'{path}/{file}'
-    if(not createExist(path, file)):
-        return getModels(downloadModels(full_path, manufacter))
-    else:
-        return getModels(readFile(full_path))
+        for model in models:
+            years = processYear(manufacter, model)
 
 def processManufacters():
     path = f'{root_folder}/manufacters'
@@ -31,6 +22,24 @@ def processManufacters():
         return getManufacters(downloadManufacter(full_path))
     else:
         return getManufacters(readFile(full_path))
+    
+def processModels(manufacter):
+    path = f'{root_folder}/{manufacter}'
+    file = f'{manufacter}.html'
+    full_path = f'{path}/{file}'
+    if(not createExist(path, file)):
+        return getModels(downloadModels(full_path, manufacter))
+    else:
+        return getModels(readFile(full_path))
+    
+def processYear(manufacter, model):
+    path = f'{root_folder}/{manufacter}/{model}'
+    file = f'{model}.html'
+    full_path = f'{path}/{file}'
+    if(not createExist(path, file)):
+        return getYears(downloadCarYear(full_path, manufacter, model), manufacter)
+    else:
+        return getYears(readFile(full_path), manufacter)
         
 def createExist(path, file):
     os.makedirs(path, exist_ok=True)

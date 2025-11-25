@@ -32,6 +32,23 @@ def downloadModels(path, manufacter):
         print(f'=> ERROR downloading page: {manufacter}')
     return response.text
 
+def downloadCarYear(path, manufacter, model):
+    url = f'https://www.carrosnaweb.com.br/catalogomodelo.asp?fabricante={manufacter}&modelo={model}'
+
+    payload = {}
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    if(response.status_code == 200):
+        with open(path, 'w', encoding="utf-8") as file:
+            file.write(response.text)
+        print(f'SUCCESS downloading page: {manufacter} - {model}')
+    else:
+        print(f'=> ERROR downloading page: {manufacter} - {model}')
+    return response.text
+
+
 def downloadCarDetails(code):
     url = f'https://www.carrosnaweb.com.br/fichadetalhe.asp?codigo={code}'
 

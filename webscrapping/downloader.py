@@ -8,13 +8,14 @@ def downloadManufacter(path):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    if(response.status_code == 200):
+    if(response.status_code == 200 and "Ocorreu um erro." not in response.text):
         with open(path, 'w', encoding="utf-8") as file:
             file.write(response.text)
-        print(f'SUCCESS downloading page: manufacters')
+        print(f'SUCCESS page: manufacters')
+        return response.text
     else:
-        print(f'=> ERROR downloading page: manufacters')
-    return response.text
+        print(f'=> ERROR page: manufacters - {url}')
+        return None
 
 def downloadModels(path, manufacter):
     url = f'https://www.carrosnaweb.com.br/catalogofabricante.asp?fabricante={manufacter}'
@@ -24,15 +25,16 @@ def downloadModels(path, manufacter):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    if(response.status_code == 200):
+    if(response.status_code == 200 and "Ocorreu um erro." not in response.text):
         with open(path, 'w', encoding="utf-8") as file:
             file.write(response.text)
-        print(f'SUCCESS downloading page: {manufacter}')
+        print(f'SUCCESS page: {manufacter}')
+        return response.text
     else:
-        print(f'=> ERROR downloading page: {manufacter}')
-    return response.text
+        print(f'=> ERROR page: {manufacter} - {url}')
+        return None
 
-def downloadCarYear(path, manufacter, model):
+def downloadYear(path, manufacter, model):
     url = f'https://www.carrosnaweb.com.br/catalogomodelo.asp?fabricante={manufacter}&modelo={model}'
 
     payload = {}
@@ -40,14 +42,31 @@ def downloadCarYear(path, manufacter, model):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    if(response.status_code == 200):
+    if(response.status_code == 200 and "Ocorreu um erro." not in response.text):
         with open(path, 'w', encoding="utf-8") as file:
             file.write(response.text)
-        print(f'SUCCESS downloading page: {manufacter} - {model}')
+        print(f'SUCCESS page: {manufacter} - {model}')
+        return response.text
     else:
-        print(f'=> ERROR downloading page: {manufacter} - {model}')
-    return response.text
+        print(f'=> ERROR page: {manufacter} - {model} - {url}')
+        return None
 
+def downloadCode(path, manufacter, model, year):
+    url = f'https://www.carrosnaweb.com.br/catalogo.asp?fabricante={manufacter}&varnome={model}&anoini={year}&anofim={year}'
+
+    payload = {}
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    if(response.status_code == 200 and "Ocorreu um erro." not in response.text):
+        with open(path, 'w', encoding="utf-8") as file:
+            file.write(response.text)
+        print(f'SUCCESS page: {manufacter} - {model} - {year}')
+        return response.text
+    else:
+        print(f'=> ERROR page: {manufacter} - {model} - {year} - {url}')
+        return None
 
 def downloadCarDetails(code):
     url = f'https://www.carrosnaweb.com.br/fichadetalhe.asp?codigo={code}'
@@ -73,11 +92,11 @@ def downloadCarDetails(code):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    if(response.status_code == 200):
-        with open(f'{code}.html', 'w') as file:
-            file.write(response.text)
-        print(f'SUCCESS downloading page: {code}')
+    if(response.status_code == 200 and "Ocorreu um erro." not in response.text):
+        print(f'SUCCESS page: {code}')
+        return response.text
     else:
-        print(f'=> ERROR downloading page: {code}')
+        print(f'=> ERROR page: {code} - {url}')
+        return None
 
 

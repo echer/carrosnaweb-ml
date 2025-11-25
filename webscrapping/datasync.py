@@ -12,6 +12,8 @@ def syncData():
         models = processModels(manufacter)
         for model in models:
             years = processYear(manufacter, model)
+            for year in years:
+                codes = processCode(manufacter, model, year)
 
 def processManufacters():
     path = f'{root_folder}/manufacters'
@@ -37,9 +39,18 @@ def processYear(manufacter, model):
     file = f'{model}.html'
     full_path = f'{path}/{file}'
     if(not createExist(path, file)):
-        return getYears(downloadCarYear(full_path, manufacter, model), manufacter)
+        return getYears(downloadYear(full_path, manufacter, model), manufacter)
     else:
         return getYears(readFile(full_path), manufacter)
+    
+def processCode(manufacter, model, year):
+    path = f'{root_folder}/{manufacter}/{model}/{year}'
+    file = f'{year}.html'
+    full_path = f'{path}/{file}'
+    if(not createExist(path, file)):
+        return getCode(downloadCode(full_path, manufacter, model, year))
+    else:
+        return getCode(readFile(full_path))
         
 def createExist(path, file):
     os.makedirs(path, exist_ok=True)
